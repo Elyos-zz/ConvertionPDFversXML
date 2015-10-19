@@ -7,7 +7,9 @@ import org.apache.pdfbox.preflight.parser.PreflightParser;
 
 import javax.activation.FileDataSource;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by elabassi on 22/09/15.
@@ -75,7 +77,7 @@ public class Validateur {
 
     public static File retourneLePDFA(String fichier) throws SyntaxValidationException {
 
-        System.out.println("Bonjour");
+        FileOutputStream argSortie
 
         File argSortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
 
