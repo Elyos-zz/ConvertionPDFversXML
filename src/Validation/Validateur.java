@@ -74,7 +74,7 @@ public class Validateur {
 
     public static File retourneLePDFA(FileInputStream fichier) throws SyntaxValidationException {
 
-        File sortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
+        File sortie = new File("/fichierPDFA.pdf");
 
         FileOutputStream argSortie = null;
         try {
