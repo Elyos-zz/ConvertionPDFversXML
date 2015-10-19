@@ -6,10 +6,7 @@ import org.apache.pdfbox.preflight.exception.SyntaxValidationException;
 import org.apache.pdfbox.preflight.parser.PreflightParser;
 
 import javax.activation.FileDataSource;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by elabassi on 22/09/15.
@@ -77,9 +74,14 @@ public class Validateur {
 
     public static File retourneLePDFA(String fichier) throws SyntaxValidationException {
 
-        FileOutputStream argSortie
+        File sortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
 
-        File argSortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
+        FileOutputStream argSortie = null;
+        try {
+            argSortie = new FileOutputStream(sortie);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
         System.out.println("\n*******  TEST DE LA VALIDITÉ DU DOCUMENT **********");
@@ -93,7 +95,14 @@ public class Validateur {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return argSortie;
+
+        try {
+            argSortie.flush();
+            argSortie.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sortie;
     }
 
     public String[] getArgs() {
