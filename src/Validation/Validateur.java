@@ -75,7 +75,9 @@ public class Validateur {
 
     public static File retourneLePDFA(String fichier) throws SyntaxValidationException {
 
-        File argSortie = new File("/Users/elabassi/IdeaProjects/ConvertionEnXML/src/Principal/fichierPDFA.pdf");
+        System.out.println("Bonjour");
+
+        File argSortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
 
 
         System.out.println("\n*******  TEST DE LA VALIDITÉ DU DOCUMENT **********");
