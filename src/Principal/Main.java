@@ -29,13 +29,15 @@ public class Main {
         //Test si le fichier d'entrée est valide PDFA
         if (!test.validation()) {
 
-            File empty = retourneLePDFA(args[0]);
+            FileInputStream fileInputStream = new FileInputStream(input);
+            File empty = retourneLePDFA(fileInputStream);
 
             String chemin = empty.getAbsolutePath();
 
             //Création du fichier final au format XML
-            File sortieXML = new File(args[0] + ".xml");
-
+            File sortieXML = new File(chemin + ".xml");
+            System.out.println(sortieXML);
+            fileInputStream.close();
             //Traitement du fichier possédant le format PDFA
             com.snowtide.pdf.Document stream = PDF.open(empty);
             XMLOutputTarget target = new XMLOutputTarget();

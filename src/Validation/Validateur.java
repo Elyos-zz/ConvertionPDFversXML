@@ -72,7 +72,7 @@ public class Validateur {
         }
     }
 
-    public static File retourneLePDFA(String fichier) throws SyntaxValidationException {
+    public static File retourneLePDFA(FileInputStream fichier) throws SyntaxValidationException {
 
         File sortie = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
 
@@ -91,7 +91,7 @@ public class Validateur {
         System.out.println("\n*******  CONVERSION PDF VERS PDFA  **********\n\nTraitement de la conversion PDF vers PDFA...");
 
         try {
-            runtime.exec("gs -dPDFA -dBATCH -dNOPAUSE -dUseCIEColor -sProcessColorModel=DeviceCMYK -sDEVICE=pdfwrite -sPDFACompatibilityPolicy=1 -sOutputFile=" + argSortie + " " + fichier + "");
+            runtime.exec("gs -dPDFA -dBATCH -dNOPAUSE -dUseCIEColor -sProcessColorModel=DeviceCMYK -sDEVICE=pdfwrite -sPDFACompatibilityPolicy=1 -sOutputFile=" + sortie + " " + fichier + "");
         } catch (IOException e) {
             e.printStackTrace();
         }
