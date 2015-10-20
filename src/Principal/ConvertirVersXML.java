@@ -13,7 +13,6 @@ public class ConvertirVersXML {
 
     public static File convertirXML(String[] args, File pdfa) {
 
-        FileInputStream outFileInputStream = null;
         FileOutputStream sortieFileOutputStream = null;
 
         File sortieXML = new File(pdfa.getAbsolutePath() + ".xml");
