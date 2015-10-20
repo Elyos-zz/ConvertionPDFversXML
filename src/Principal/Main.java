@@ -61,43 +61,12 @@ public class Main {
                 fileOutputStream.close();
             }
 
-            File sortieXML = new File(output.getAbsolutePath() + ".xml");
-
-            FileInputStream outFileInputStream = null;
-            FileOutputStream sortieFileOutputStream = null;
-
-
-            try {
-                outFileInputStream = new FileInputStream(output);
-                sortieFileOutputStream = new FileOutputStream(sortieXML);
-
-                for (int i = 0; i < args.length; i++) {
-                    File src = new File(args[i]);
-                    if (!src.exists()) {
-                        System.out.println("Fichier introuvable: " + args[i]);
-                    }
-                    if (!src.canRead()) {
-                        System.out.println("Impossible de lire le fichier: " + args[i]);
-                    }
-
-                    Document stream = PDF.open(src);
-                    XMLOutputTarget target = new XMLOutputTarget();
-                    stream.pipe(target);
-                    OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
-                    writer.write(target.getXMLAsString());
-                    writer.flush();
-                    writer.close();
-                    stream.close();
-
-                }
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            } finally {
-                outFileInputStream.close();
-                sortieFileOutputStream.close();
-            }
-        } else
-            System.out.println("Felicitation");
+            //convertion en XML du fichier "output"
+            ConvertirVersXML.convertirXML(args, output);
+        } else {
+            System.out.println("Felicitation votre fichier est valide format PDF/A-1b, voici le fichier converti en XML...");
+            //convertion en XML du fichier "output"
+            ConvertirVersXML.convertirXML(args, output);
+        }
     }
 }
