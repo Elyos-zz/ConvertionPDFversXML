@@ -1,5 +1,8 @@
 package Validation;
 
+import EfficientConvertisseurXml.XMLOutputTarget;
+import com.snowtide.PDF;
+import com.snowtide.pdf.Document;
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException;
@@ -71,6 +74,14 @@ public class Validateur {
             return false;
         }
     }
+    public static String parser(File contenu) throws IOException{
+        Document pdf = PDF.open(contenu, null);
+        XMLOutputTarget xmlOutputTarget = new XMLOutputTarget();
+        pdf.pipe(xmlOutputTarget);
+        pdf.close();
+        return xmlOutputTarget.getXMLAsString();
+    }
+
 
     public String[] getArgs() {
         return args;

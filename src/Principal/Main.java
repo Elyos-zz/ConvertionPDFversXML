@@ -5,6 +5,7 @@ import Validation.Validateur;
 import com.snowtide.PDF;
 import com.snowtide.pdf.Document;
 import com.snowtide.pdf.PDFTextStream;
+import com.sun.xml.internal.ws.commons.xmlutil.Converter;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -66,13 +67,12 @@ public class Main {
             try {
                 outFileInputStream = new FileInputStream(output);
                 sortieFileOutputStream = new FileOutputStream(sortieXML);
+                System.out.println("\nTraitement XML...\n");
 
-                byte[] contenu = new byte[1024];
-                int n;
-                while ((n = outFileInputStream.read(contenu)) >= 0) {
+                //while ((n = outFileInputStream.read(contenu)) >= 0) {
 
-
-                    Document stream = PDF.open(output);
+                    System.out.println("/nTraitement XML.../n");
+                    Document stream = PDF.open(outFileInputStream, null);
                     XMLOutputTarget target = new XMLOutputTarget();
                     stream.pipe(target);
                     OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
@@ -81,7 +81,7 @@ public class Main {
                     writer.close();
                     stream.close();
 
-                }
+                //}
 
             } finally {
                 outFileInputStream.close();
