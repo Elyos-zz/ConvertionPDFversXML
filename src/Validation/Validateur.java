@@ -72,39 +72,6 @@ public class Validateur {
         }
     }
 
-    public static File retourneLePDFA(FileInputStream fichier) throws SyntaxValidationException {
-
-        File sortie = new File("/fichierPDFA.pdf");
-
-        FileOutputStream argSortie = null;
-        try {
-            argSortie = new FileOutputStream(sortie);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        System.out.println("\n*******  TEST DE LA VALIDITÉ DU DOCUMENT **********");
-
-        Runtime runtime = Runtime.getRuntime();
-
-        System.out.println("\n*******  CONVERSION PDF VERS PDFA  **********\n\nTraitement de la conversion PDF vers PDFA...");
-
-        try {
-            runtime.exec("gs -dPDFA -dBATCH -dNOPAUSE -dUseCIEColor -sProcessColorModel=DeviceCMYK -sDEVICE=pdfwrite -sPDFACompatibilityPolicy=1 -sOutputFile=" + sortie + " " + fichier + "");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            argSortie.flush();
-            argSortie.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sortie;
-    }
-
     public String[] getArgs() {
         return args;
     }

@@ -3,9 +3,11 @@ package Principal;
 import EfficientConvertisseurXml.XMLOutputTarget;
 import Validation.Validateur;
 import com.snowtide.PDF;
-import java.io.*;
+import com.snowtide.pdf.PDFTextStream;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
-import static Validation.Validateur.retourneLePDFA;
+import java.io.*;
 
 public class Main {
 
@@ -25,39 +27,58 @@ public class Main {
         //Instanciation de la classe Validateur
         Validateur test = new Validateur(args);
         File input = new File(args[0]);
+        File output = new File("/ccc/home/cont001/ocre/labassie/Git/ConvertionPDFversXML/src/Principal/fichierPDFA.pdf");
 
         //Test si le fichier d'entrée est valide PDFA
         if (!test.validation()) {
 
-            FileInputStream fileInputStream = new FileInputStream(input);
-            File empty = retourneLePDFA(fileInputStream);
+            FileInputStream fileInputStream = null;
+            FileOutputStream fileOutputStream = null;
 
-            String chemin = empty.getAbsolutePath();
+            if (input.exists()) {
 
-            //Création du fichier final au format XML
-            File sortieXML = new File(chemin + ".xml");
-            System.out.println(sortieXML);
-            fileInputStream.close();
-            //Traitement du fichier possédant le format PDFA
-            com.snowtide.pdf.Document stream = PDF.open(empty);
-            XMLOutputTarget target = new XMLOutputTarget();
-            stream.pipe(target);
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(sortieXML), "UTF-8");
-            writer.write(target.getXMLAsString());
-            writer.flush();
-            writer.close();
-            stream.close();
-        }
+                try {
+                    fileInputStream = new FileInputStream(input);
+                    fileOutputStream = new FileOutputStream(output);
 
-        else{
-            System.out.println("Félicitation");
-            //IL manque ici le traitement dupliqué pour le convertir en XML
-        }
+                    System.out.println("\n*******  TEST DE LA VALIDITÉ DU DOCUMENT **********");
+                    Runtime runtime = Runtime.getRuntime();
+                    System.out.println("\n*******  CONVERSION PDF VERS PDFA  **********\n\nTraitement de la conversion PDF vers PDFA...");
 
-        if (!input.canRead()) {
-            System.out.println("\nConversion effectuée : fichier corrompu.");
-        } else {
-            System.out.println("\nOups ! Le fichier n'a pas été généré.");
+                    runtime.exec("gs -dPDFA -dBATCH -dNOPAUSE -dUseCIEColor -sProcessColorModel=DeviceCMYK -sDEVICE=pdfwrite -sPDFACompatibilityPolicy=1 -sOutputFile=" + output + " " + input + "");
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    fileInputStream.close();
+                    fileOutputStream.close();
+                }
+            } else {
+                System.out.println("Le fichier d'entrée n'existe pas.");
+            }
+
+            File sortieXML = new File(output.getAbsolutePath() + ".xml");
+            FileInputStream outFileInputStream = null;
+            FileOutputStream sortieFileOutputStream = null;
+
+            try {
+                outFileInputStream = new FileInputStream(output);
+                sortieFileOutputStream = new FileOutputStream(sortieXML);
+
+                com.snowtide.pdf.Document stream = PDF.open(output);
+                XMLOutputTarget target = new XMLOutputTarget();
+                stream.pipe(target);
+                OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
+                writer.write(target.getXMLAsString());
+                writer.flush();
+                writer.close();
+                stream.close();
+
+            } finally {
+                outFileInputStream.close();
+                sortieFileOutputStream.close();
+            }
         }
     }
 }
