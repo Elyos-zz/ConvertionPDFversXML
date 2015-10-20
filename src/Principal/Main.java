@@ -73,8 +73,12 @@ public class Main {
 
                 for (int i = 0; i < args.length; i++) {
                     File src = new File(args[i]);
-                    if (!src.exists()) System.out.println("No such file: " + args[i]);
-                    if (!src.canRead()) System.out.println("Cannot read file (check permissions): " + args[i]);
+                    if (!src.exists()) {
+                        System.out.println("Fichier introuvable: " + args[i]);
+                    }
+                    if (!src.canRead()) {
+                        System.out.println("Impossible de lire le fichier: " + args[i]);
+                    }
 
                     Document stream = PDF.open(src);
                     XMLOutputTarget target = new XMLOutputTarget();
