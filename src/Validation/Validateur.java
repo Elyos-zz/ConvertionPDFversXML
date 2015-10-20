@@ -74,14 +74,6 @@ public class Validateur {
             return false;
         }
     }
-    public static String parser(File contenu) throws IOException{
-        Document pdf = PDF.open(contenu, null);
-        XMLOutputTarget xmlOutputTarget = new XMLOutputTarget();
-        pdf.pipe(xmlOutputTarget);
-        pdf.close();
-        return xmlOutputTarget.getXMLAsString();
-    }
-
 
     public String[] getArgs() {
         return args;

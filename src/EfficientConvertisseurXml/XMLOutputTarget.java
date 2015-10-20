@@ -3,21 +3,18 @@ package EfficientConvertisseurXml;
 import com.snowtide.pdf.OutputHandler;
 import com.snowtide.pdf.Configuration;
 import com.snowtide.pdf.Page;
-import com.snowtide.pdf.layout.Block;
-import com.snowtide.pdf.layout.Region;
-import com.snowtide.pdf.layout.Table;
-import com.snowtide.pdf.layout.TextUnit;
+import com.snowtide.pdf.layout.*;
 import com.snowtide.util.logging.Log;
 import com.snowtide.util.logging.LoggingRegistry;
 
-import java.applet.Applet;
+
 import java.io.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XMLOutputTarget extends OutputHandler {
+public class XMLOutputTarget extends OutputHandler{
     private static final Log log = LoggingRegistry.getLog(XMLOutputTarget.class);
     
     private static final String ELT_BOLD = "gras";
@@ -169,8 +166,8 @@ public class XMLOutputTarget extends OutputHandler {
     }
     
     private static void writeCoordsAsAttrs (Region r, Element context) {
-    	context.setAttribute("posX", Float.toString(r.xpos()));
-    	context.setAttribute("posY", Float.toString(r.ypos()));
+    	context.setAttribute("posX", Float.toString(r.rx()));
+    	context.setAttribute("posY", Float.toString(r.ty()));
     	context.setAttribute("largeur", Float.toString(r.width()));
     	context.setAttribute("hauteur", Float.toString(r.height()));
     }

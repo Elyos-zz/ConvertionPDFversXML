@@ -87,8 +87,8 @@ public class GoogleHTMLOutputHandler extends OutputHandler {
 
     public void textUnit (TextUnit tu) {        
         attrs.clear();
-        attrs.put("style", "position:absolute;top:" + (top + pageHeight - tu.bounds().ypos()) +
-                ";left:" + tu.bounds().xpos() + ";font-size:" + tu.bounds().height());
+        attrs.put("style", "position:absolute;top:" + (top + pageHeight - tu.bounds().ty()) +
+                ";left:" + tu.bounds().rx() + ";font-size:" + tu.bounds().height());
 
         String txt = tu.getCharacterSequence() == null ? 
                 Character.toString((char)tu.getCharCode()) : new String(tu.getCharacterSequence());
