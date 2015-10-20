@@ -3,6 +3,7 @@ package Principal;
 import EfficientConvertisseurXml.XMLOutputTarget;
 import Validation.Validateur;
 import com.snowtide.PDF;
+import com.snowtide.pdf.Document;
 import com.snowtide.pdf.PDFTextStream;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -66,14 +67,21 @@ public class Main {
                 outFileInputStream = new FileInputStream(output);
                 sortieFileOutputStream = new FileOutputStream(sortieXML);
 
-                com.snowtide.pdf.Document stream = PDF.open(output);
-                XMLOutputTarget target = new XMLOutputTarget();
-                stream.pipe(target);
-                OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
-                writer.write(target.getXMLAsString());
-                writer.flush();
-                writer.close();
-                stream.close();
+                byte[] contenu = new byte[1024];
+                int n;
+                while ((n = outFileInputStream.read(contenu)) >= 0) {
+
+
+                    Document stream = PDF.open(output);
+                    XMLOutputTarget target = new XMLOutputTarget();
+                    stream.pipe(target);
+                    OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
+                    writer.write(target.getXMLAsString());
+                    writer.flush();
+                    writer.close();
+                    stream.close();
+
+                }
 
             } finally {
                 outFileInputStream.close();
