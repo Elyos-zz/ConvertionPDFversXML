@@ -43,7 +43,6 @@ public class Main {
             FileInputStream fileInputStream = null;
             FileOutputStream fileOutputStream = null;
 
-
             try {
                 fileInputStream = new FileInputStream(input);
                 fileOutputStream = new FileOutputStream(output);
@@ -56,9 +55,11 @@ public class Main {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                fileInputStream.close();
-                fileOutputStream.close();
+            }finally {
+                if (fileInputStream != null && fileOutputStream != null) {
+                    fileInputStream.close();
+                    fileOutputStream.close();
+                }
             }
 
             //convertion en XML du fichier "output"

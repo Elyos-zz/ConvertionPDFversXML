@@ -14,6 +14,8 @@ public class ConvertirVersXML {
     public static File convertirXML(String[] args, File pdfa) {
 
         FileOutputStream sortieFileOutputStream = null;
+        OutputStreamWriter writer = null;
+        Document stream = null;
 
         File sortieXML = new File(pdfa.getAbsolutePath() + ".xml");
 
@@ -29,19 +31,28 @@ public class ConvertirVersXML {
                 }
                 sortieFileOutputStream = new FileOutputStream(sortieXML);
 
-                Document stream = PDF.open(src);
+                stream = PDF.open(src);
                 XMLOutputTarget target = new XMLOutputTarget();
                 stream.pipe(target);
-                OutputStreamWriter writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
+                writer = new OutputStreamWriter(sortieFileOutputStream, "UTF-8");
                 writer.write(target.getXMLAsString());
                 writer.flush();
-                sortieFileOutputStream.close();
-                writer.close();
-                stream.close();
             }
         } catch (IOException e) {
 
             e.printStackTrace();
+        }finally{
+            try {
+                if (sortieFileOutputStream != null && writer != null && stream != null) {
+                    sortieFileOutputStream.close();
+                    writer.close();
+                    stream.close();
+                }else{
+                    System.out.println("Flux null");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return sortieXML;
     }
