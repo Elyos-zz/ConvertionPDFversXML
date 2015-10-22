@@ -62,11 +62,16 @@ public class Main {
             }
 
             //convertion en XML du fichier "output"
+            System.out.println("\n Conversion XML en cours...");
             ConvertirVersXML.convertirXML(args, output);
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
+
         } else {
             System.out.println("Felicitation votre fichier est valide format PDF/A-1b, voici le fichier converti en XML...");
             //convertion en XML du fichier "output"
+            System.out.println("\n Conversion XML en cours...");
             ConvertirVersXML.convertirXML(args, output);
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
         }
     }
 }
