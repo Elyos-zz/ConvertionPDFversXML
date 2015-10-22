@@ -35,7 +35,7 @@ public class Main {
         //Instanciation de la classe Validateur
         Validateur test = new Validateur(args);
         File input = new File(args[0]);
-        File output = new File("./fichierPDFA2.pdf");
+        File output = new File("./" + input.getName());
 
         //Test si le fichier d'entrée est valide PDFA
         if (!test.validation()) {
