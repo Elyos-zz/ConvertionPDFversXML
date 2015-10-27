@@ -1,21 +1,10 @@
 package Principal;
 
-import EfficientConvertisseurXml.XMLOutputTarget;
 import Validation.Validateur;
 import com.snowtide.PDF;
-import com.snowtide.pdf.*;
-import com.snowtide.pdf.annot.Annotation;
-import com.snowtide.pdf.forms.Form;
-import com.snowtide.pdf.layout.Image;
-import com.sun.xml.internal.ws.commons.xmlutil.Converter;
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.pdmodel.PDDocument;
-
+import javax.xml.transform.*;
 import java.io.*;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.w3c.dom.Document;
 
 public class Main {
 
@@ -64,15 +53,24 @@ public class Main {
 
             //convertion en XML du fichier "output"
             System.out.println("\n Conversion XML en cours...");
-            ConvertirVersXML.convertirXML(args, output);
+            File file = new File(ConvertirVersXML.convertirXML(args, output).getAbsolutePath());
+            Document document = ConvertirVersXML.readXmlDocument(file);
+            Transformer transformer = ConvertirVersXML.createXmlTransformer();
+            ConvertirVersXML.overwriteXmlFile(file, document, transformer);
             System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
-
         } else {
             System.out.println("Felicitation votre fichier est valide format PDF/A-1b, voici le fichier converti en XML...");
             //convertion en XML du fichier "output"
             System.out.println("\n Conversion XML en cours...");
-            ConvertirVersXML.convertirXML(args, output);
+            File file = new File(ConvertirVersXML.convertirXML(args, output).getAbsolutePath());
+            Document document = ConvertirVersXML.readXmlDocument(file);
+            Transformer transformer = ConvertirVersXML.createXmlTransformer();
+            ConvertirVersXML.overwriteXmlFile(file, document, transformer);
             System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
         }
     }
+
+
 }
+
+
