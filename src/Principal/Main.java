@@ -13,6 +13,7 @@ public class Main {
     private static final int MAX = 10000;
     private static final int MIN = 1;
     private static Random nombre = new Random();
+    private static boolean estConnecte = false;
 
     /**
      * A main method suitable for using this class' functionality from the command line.
@@ -62,9 +63,19 @@ public class Main {
             System.out.println("Conversion XML en cours...");
             System.out.println("Transformation XML en cours...");
             System.out.println("Numérotation du XML en cours...");
-            Main.doNumerotationAndAll(args, output);
-
+            System.out.println("...Connexion à la base en cours...");
+            Main.connexionBase();
+            Main.doAll(args, output);
+            if (connexionBase()){
+                System.out.println("\tConnexion à la base réussie !");
+            }
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
+
+            //System.out.println("============IMPORTATION DU DOCUMENT EN BASE DE DONNÉES==============");
+            //Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/rempli_base "+  + " ");
+
+            //System.out.println("============CONNEXION À LA BASE DE DONNÉES==============");
+            //plus tard
         } else {
             // test de validité PDF/A-1b
             System.out.println("Felicitation votre fichier est déjà valide format PDF/A-1b !");
@@ -74,7 +85,14 @@ public class Main {
             System.out.println("Conversion XML en cours...");
             System.out.println("Transformation XML en cours...");
             System.out.println("Numérotation du XML en cours...");
-            Main.doNumerotationAndAll(args, output);
+            Main.doAll(args, output);
+            Main.connexionBase();
+            System.out.println(connexionBase());
+            if (connexionBase()){
+                System.out.println("\tConnexion à la base réussie !");
+            }else{
+                System.out.println("Connexion à la base échouée !");
+            }
 
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
         }
@@ -86,16 +104,52 @@ public class Main {
         ConvertirVersXML.overwriteXmlFile(file, document, transformer);
         return file;
     }
-    private static void doNumerotationAndAll(String[] argument, File output) throws Exception {
+    private static void doAll(String[] argument, File output) throws Exception {
+        File file = new File(ConvertirVersXML.convertirXML(argument, output).getAbsolutePath());
+        Document document = ConvertirVersXML.readXmlDocument(file);
+        Transformer transformer = ConvertirVersXML.createXmlTransformer(file);
+        ConvertirVersXML.overwriteXmlFile(file, document, transformer);
         //numerotation du document XML
         int id = getNombre().nextInt((MAX - MIN) + 1) - MIN;
-        Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doConvertionAndTransformation(argument, output).getAbsolutePath());
-
+        Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file.getAbsolutePath());
         if(!proc.isAlive()){
             //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
             id = 10001;
-            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doConvertionAndTransformation(argument, output).getAbsolutePath());
+            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml " + " -id " + id + " -class none " + file);
         }
+        //Importation du document
+        if (Main.connexionBase()) {
+            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/rempli_base " + file.getAbsolutePath() + " ");
+        }
+    }
+
+    private static boolean connexionBase() throws IOException {
+        //Connexion à la base
+        Process connexion_web;
+        Process connexion_xedix;
+        do {
+            connexion_web = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_web XEDIX start");
+            connexion_xedix = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_xedix XEDIX start");
+            estConnecte = true;
+        }while(!connexion_web.isAlive() && !connexion_xedix.isAlive());
+
+        return estConnecte;
+    }
+
+    private static boolean deconnexionBase() throws IOException {
+        //Connexion à la base
+        Process connexion_web;
+        Process connexion_xedix;
+        do {
+            connexion_web = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_web XEDIX stop");
+            connexion_xedix = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_xedix XEDIX stop");
+            estConnecte = false;
+        }while(isEstConnecte());
+
+        return estConnecte;
+    }
+    public static boolean isEstConnecte() {
+        return estConnecte;
     }
     public static Random getNombre() {
         return nombre;
