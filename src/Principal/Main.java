@@ -10,6 +10,9 @@ import org.w3c.dom.Document;
 
 public class Main {
 
+    private static final int MAX = 1000;
+    private static final int MIN = 1;
+
     /**
      * A main method suitable for using this class' functionality from the command line.
      * All of the command-line arguments will be taken to be paths to input PDF documents;
@@ -61,14 +64,14 @@ public class Main {
             Transformer transformer = ConvertirVersXML.createXmlTransformer(file);
             ConvertirVersXML.overwriteXmlFile(file, document, transformer);
 
-                int id = nombre.nextInt((3 - 0) + 1) - 0;
+                int id = nombre.nextInt((MAX - MIN) + 1) - MIN;
                 System.out.println("Valeur de l'id : " + id);
-                int lastId[] = new int[3];
+                int lastId[] = new int[MAX];
                 System.out.println("Taille du tableau: " + lastId.length);
                 int i = 0;
 
-                    lastId[lastId.length - 3] = id;
-                    for (i = 0; i <= 3; i++) {
+                    lastId[lastId.length - MAX] = id;
+                    for (i = 0; i <= MAX; i++) {
                         System.out.println(lastId[i]);
 
                        while(i < lastId.length-1 && lastId[i] == id ) {
