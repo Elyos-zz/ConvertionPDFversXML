@@ -38,6 +38,7 @@ public class Validateur {
 
         try{
             try {
+                System.out.println("\n============TEST DE LA VALIDITÉ DU DOCUMENT==============");
                 res = null;
                 FileDataSource fds = new FileDataSource(args[0]);
 

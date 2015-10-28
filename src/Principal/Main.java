@@ -60,6 +60,8 @@ public class Main {
             //Convertion XML, transformation et numerotation du document
             System.out.println("============CONVERTION AU FORMAT XML==============");
             System.out.println("Conversion XML en cours...");
+            System.out.println("Transformation XML en cours...");
+            System.out.println("Numérotation du XML en cours...");
             Main.doNumerotationAndAll(args, output);
 
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
@@ -68,6 +70,7 @@ public class Main {
             System.out.println("Felicitation votre fichier est déjà valide format PDF/A-1b !");
 
             //Convertion XML, transformation et numérotation du document
+            System.out.println("============CONVERTION AU FORMAT XML==============");
             System.out.println("Conversion XML en cours...");
             System.out.println("Transformation XML en cours...");
             System.out.println("Numérotation du XML en cours...");
