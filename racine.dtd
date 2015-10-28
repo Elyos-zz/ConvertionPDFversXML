@@ -1,0 +1,18 @@
+<!ELEMENT racine (formatPDF)*>
+        <!ELEMENT formatPDF (page)*>
+        <!ATTLIST formatPDF
+                name CDATA #REQUIRED>
+        <!ELEMENT page (bloc|texte)*>
+        <!ATTLIST page
+                numero CDATA #REQUIRED>
+        <!ELEMENT bloc (texte|bloc)*>
+        <!ATTLIST bloc
+                hauteur CDATA #REQUIRED
+                largeur CDATA #REQUIRED
+                posX CDATA #REQUIRED
+                posY CDATA #REQUIRED
+		        type CDATA #IMPLIED>
+        <!ELEMENT texte (#PCDATA, (gras|souligne)*)*>
+        <!ELEMENT gras (#PCDATA, souligne*)*>
+	<!ELEMENT souligne (#PCDATA, gras*)*>
+        
