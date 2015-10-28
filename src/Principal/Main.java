@@ -4,6 +4,8 @@ import Validation.Validateur;
 import com.snowtide.PDF;
 import javax.xml.transform.*;
 import java.io.*;
+import java.util.Random;
+
 import org.w3c.dom.Document;
 
 public class Main {
@@ -25,6 +27,7 @@ public class Main {
         Validateur test = new Validateur(args);
         File input = new File(args[0]);
         File output = new File("./" + input.getName());
+        Random nombre = new Random();
 
         //Test si le fichier d'entrée est valide PDFA
         if (!test.validation()) {
@@ -44,7 +47,7 @@ public class Main {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 if (fileInputStream != null && fileOutputStream != null) {
                     fileInputStream.close();
                     fileOutputStream.close();
@@ -55,16 +58,39 @@ public class Main {
             System.out.println("\n Conversion XML en cours...");
             File file = new File(ConvertirVersXML.convertirXML(args, output).getAbsolutePath());
             Document document = ConvertirVersXML.readXmlDocument(file);
-            Transformer transformer = ConvertirVersXML.createXmlTransformer();
+            Transformer transformer = ConvertirVersXML.createXmlTransformer(file);
             ConvertirVersXML.overwriteXmlFile(file, document, transformer);
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
+
+                int id = nombre.nextInt((3 - 0) + 1) - 0;
+                System.out.println("Valeur de l'id : " + id);
+                int lastId[] = new int[3];
+                System.out.println("Taille du tableau: " + lastId.length);
+                int i = 0;
+
+                    lastId[lastId.length - 3] = id;
+                    for (i = 0; i <= 3; i++) {
+                        System.out.println(lastId[i]);
+
+                       while(i < lastId.length-1 && lastId[i] == id ) {
+                           System.out.println(lastId.equals(id));
+
+                           Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class unknow " + file.getAbsolutePath());
+                           lastId[lastId.length - 3] = id;
+                           i++;
+                           System.out.println(lastId[i]);
+                       }
+                    }
+
+
+                    //System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
+
         } else {
             System.out.println("Felicitation votre fichier est valide format PDF/A-1b, voici le fichier converti en XML...");
             //convertion en XML du fichier "output"
             System.out.println("\n Conversion XML en cours...");
             File file = new File(ConvertirVersXML.convertirXML(args, output).getAbsolutePath());
             Document document = ConvertirVersXML.readXmlDocument(file);
-            Transformer transformer = ConvertirVersXML.createXmlTransformer();
+            Transformer transformer = ConvertirVersXML.createXmlTransformer(file);
             ConvertirVersXML.overwriteXmlFile(file, document, transformer);
             System.out.println("\n\n\n\n\n\n\n\n\n\n\nConversion PDF/A et XML terminée avec succès !");
         }
@@ -72,5 +98,3 @@ public class Main {
 
 
 }
-
-
