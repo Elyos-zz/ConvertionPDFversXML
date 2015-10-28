@@ -38,7 +38,7 @@ public class Main {
             FileInputStream fileInputStream = null;
             FileOutputStream fileOutputStream = null;
 
-            try {
+            try {//convertion PDF/A-1b
                 fileInputStream = new FileInputStream(input);
                 fileOutputStream = new FileOutputStream(output);
 
@@ -57,28 +57,21 @@ public class Main {
                 }
             }
 
-            //Convertion et transformation en XML
+            //Convertion XML, transformation et numerotation du document
             System.out.println("============CONVERTION AU FORMAT XML==============");
             System.out.println("Conversion XML en cours...");
-
-            //numerotation du document XML
-            int id = nombre.nextInt((MAX - MIN) + 1) - MIN;
-            Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doMain(args, output).getAbsolutePath());
-
-            if(!proc.isAlive()){
-                //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
-                id = 10001;
-                Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doMain(args, output).getAbsolutePath());
-            }
+            Main.doNumerotationAndAll(args, output);
 
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
         } else {
+            // test de validité PDF/A-1b
             System.out.println("Felicitation votre fichier est déjà valide format PDF/A-1b !");
-            //convertion en XML du fichier "output"
-            System.out.println("Conversion XML en cours...");
 
-            //Convertion et transformation en XML
-            Main.doMain(args, output);
+            //Convertion XML, transformation et numérotation du document
+            System.out.println("Conversion XML en cours...");
+            System.out.println("Transformation XML en cours...");
+            System.out.println("Numérotation du XML en cours...");
+            Main.doNumerotationAndAll(args, output);
 
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
         }
@@ -90,15 +83,15 @@ public class Main {
         ConvertirVersXML.overwriteXmlFile(file, document, transformer);
         return file;
     }
-    private static void doNumerotation(){
+    private static void doNumerotationAndAll(String[] argument, File output) throws Exception {
         //numerotation du document XML
         int id = getNombre().nextInt((MAX - MIN) + 1) - MIN;
-        Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doMain(args, output).getAbsolutePath());
+        Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doConvertionAndTransformation(argument, output).getAbsolutePath());
 
         if(!proc.isAlive()){
             //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
             id = 10001;
-            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doMain(args, output).getAbsolutePath());
+            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + Main.doConvertionAndTransformation(argument, output).getAbsolutePath());
         }
     }
     public static Random getNombre() {
