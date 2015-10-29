@@ -101,6 +101,7 @@ public class Main {
         //numerotation du document XML
         int id = getNombre().nextInt((MAX - MIN) + 1) - MIN;
         Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file.getAbsolutePath());
+        //On suppose que la numerotation echoue si un identifiant a déjà été attribué
         if(!proc.isAlive()){
             //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
             id = 10001;
