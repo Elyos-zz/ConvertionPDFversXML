@@ -121,7 +121,7 @@ public class Main {
             connexion_web = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_web XEDIX start");
             connexion_xedix = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_xedix XEDIX start");
             estConnecte = true;
-        }while(!connexion_web.isAlive() && !connexion_xedix.isAlive());
+        }while(!isEstConnecte());
 
         return estConnecte;
     }
