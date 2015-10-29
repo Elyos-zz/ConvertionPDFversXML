@@ -71,11 +71,6 @@ public class Main {
             }
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
 
-            //System.out.println("============IMPORTATION DU DOCUMENT EN BASE DE DONNÉES==============");
-            //Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/rempli_base "+  + " ");
-
-            //System.out.println("============CONNEXION À LA BASE DE DONNÉES==============");
-            //plus tard
         } else {
             // test de validité PDF/A-1b
             System.out.println("Felicitation votre fichier est déjà valide format PDF/A-1b !");
@@ -97,13 +92,7 @@ public class Main {
             System.out.println("Conversion PDF/A et XML terminée avec succès !");
         }
     }
-    private static File doConvertionAndTransformation(String[] argument, File output) throws Exception {
-        File file = new File(ConvertirVersXML.convertirXML(argument, output).getAbsolutePath());
-        Document document = ConvertirVersXML.readXmlDocument(file);
-        Transformer transformer = ConvertirVersXML.createXmlTransformer(file);
-        ConvertirVersXML.overwriteXmlFile(file, document, transformer);
-        return file;
-    }
+
     private static void doAll(String[] argument, File output) throws Exception {
         File file = new File(ConvertirVersXML.convertirXML(argument, output).getAbsolutePath());
         Document document = ConvertirVersXML.readXmlDocument(file);
@@ -115,7 +104,7 @@ public class Main {
         if(!proc.isAlive()){
             //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
             id = 10001;
-            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml " + " -id " + id + " -class none " + file);
+            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file);
         }
         //Importation du document
         if (Main.connexionBase()) {
@@ -137,7 +126,7 @@ public class Main {
     }
 
     private static boolean deconnexionBase() throws IOException {
-        //Connexion à la base
+        //Deconnexion à la base
         Process connexion_web;
         Process connexion_xedix;
         do {
@@ -147,6 +136,13 @@ public class Main {
         }while(isEstConnecte());
 
         return estConnecte;
+    }
+
+    //Une fonction générant une clef de session
+    private static int genereCleSession(){
+        int clefDeSession = 0;
+
+        return clefDeSession;
     }
     public static boolean isEstConnecte() {
         return estConnecte;
