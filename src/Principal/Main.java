@@ -100,16 +100,16 @@ public class Main {
         ConvertirVersXML.overwriteXmlFile(file, document, transformer);
         //numerotation du document XML
         int id = getNombre().nextInt((MAX - MIN) + 1) - MIN;
-        Process proc = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file.getAbsolutePath());
+        Process proc = Runtime.getRuntime().exec("./numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file.getAbsolutePath());
         //On suppose que la numerotation echoue si un identifiant a déjà été attribué
         if(!proc.isAlive()){
             //Si le document possède déja un identifiant similaire à celui généré, alors on lui en attribut un par defaut
             id = 10001;
-            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/convert/numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file);
+            Runtime.getRuntime().exec("./numerote -xml -suf " + "\\.xml -id " + id + " -class none " + file);
         }
         //Importation du document
         if (Main.connexionBase()) {
-            Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/rempli_base " + file.getAbsolutePath() + " ");
+            Runtime.getRuntime().exec("./bin/rempli_base " + file.getAbsolutePath() + " ");
         }
     }
 
@@ -118,8 +118,8 @@ public class Main {
         Process connexion_web;
         Process connexion_xedix;
         do {
-            connexion_web = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_web XEDIX start");
-            connexion_xedix = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_xedix XEDIX start");
+            connexion_web = Runtime.getRuntime().exec("./bin/lance/lance_web XEDIX start");
+            connexion_xedix = Runtime.getRuntime().exec("./bin/lance/lance_xedix XEDIX start");
             estConnecte = true;
         }while(!isEstConnecte());
 
@@ -131,8 +131,8 @@ public class Main {
         Process connexion_web;
         Process connexion_xedix;
         do {
-            connexion_web = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_web XEDIX stop");
-            connexion_xedix = Runtime.getRuntime().exec("/ccc/home/cont001/ocre/labassie/XEDIX/xedixts/bin/lance/lance_xedix XEDIX stop");
+            connexion_web = Runtime.getRuntime().exec("./bin/lance/lance_web XEDIX stop");
+            connexion_xedix = Runtime.getRuntime().exec("./bin/lance/lance_xedix XEDIX stop");
             estConnecte = false;
         }while(isEstConnecte());
 
